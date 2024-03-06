@@ -1,0 +1,8 @@
+- Implement the JWT auth
+- Read about and then decide if eslint and prettier are needed
+- clean up existing code before it gets messy
+- look up and implement database performance tests
+- create multiple environments
+- lookup artillery js to perform load testing
+- db indexes
+- redis

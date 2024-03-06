@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head.ejs'); %>
+  </head>
+  <body class="p-4 bg-slate-100 font-serif max-w-3xl mx-auto min-h-screen">
+    <header><%- include('../partials/header.ejs'); %></header>
+    <main class="flex flex-grow">
+      <div class="flex">
+        <form
+          action=""
+          method="post"
+          class="flex flex-col border border-gray-400"
+        >
+          <h1>Logge toi et le ciel t'aidera</h1>
+
+          <input type="email" name="email" id="" placeholder="email" />
+          <input type="password" name="password" id="" placeholder="password" />
+          <button type="submit">envoyer</button>
+        </form>
+      </div>
+    </main>
+    <footer><%- include('../partials/footer'); %></footer>
+  </body>
+</html>
