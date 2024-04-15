@@ -1,0 +1,10 @@
+{{define "content"}}
+<form action="/users/{{ .User.Id}}" method="post">
+  <input type="text" name="username" placeholder="{{ .User.Username}}" />
+  <input type="password" name="password" placeholder="Password" />
+  <input type="email" name="email" placeholder="{{ .User.Email}}" />
+  <input type="text" name="role" placeholder="{{ .User.Role}}" />
+
+  <input type="submit" value="Update" />
+</form>
+{{end}}

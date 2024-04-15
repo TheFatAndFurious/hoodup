@@ -1,0 +1,12 @@
+{{define "content"}}
+
+<h1>PANEL ADMIN MON GROS</h1>
+<ul>
+  {{range .Users}}
+  <a href="/users/{{ .Id}}">
+    <li>{{.Username}}</li>
+  </a>
+  {{end}}
+</ul>
+
+{{end}}
