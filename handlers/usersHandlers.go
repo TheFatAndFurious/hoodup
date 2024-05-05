@@ -2,9 +2,12 @@ package handlers
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
+	"path/filepath"
 	"strconv"
 
 	"github.com/gorilla/mux"
@@ -23,18 +26,60 @@ func CreateUserHandler(db *sql.DB) http.HandlerFunc {
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "Invalid form data", http.StatusBadRequest)
 	}
-
 	user, err := models.FormToUser(r.Form)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
-
+	
 	if err := models.PersistUser(db, user); err!= nil {
 		log.Fatalf("Failed to persist user: %v", err)
 	}
+	successMessage := "user created successfully"
+	messages<- successMessage
 
+	w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(struct {
+			Message string `json:"message"`
+		}{
+			Message: successMessage,
+		})
 	}
 }
+
+
+func UpdateUserHandler( db *sql.DB) http.HandlerFunc{
+	return func(w http.ResponseWriter, r *http.Request) {
+		// we construct the template
+		tmp := template.Must(template.ParseFiles(filepath.Join(basePath, "base.html"), filepath.Join(basePath, "header.html"), filepath.Join(basePath, "updateUsers.html")))
+		// we get the params
+		vars := mux.Vars(r)
+		// we get the id from the URL
+		id := vars["id"]
+		// we convert it to an integer
+		userId, err := strconv.Atoi(id)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		// we get the user from the database
+		user, err := models.GetSingleUser(db, userId)
+		if err!= nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		// TODO: check if the user exists
+		data := struct {
+			Title string
+			User models.User
+		} {
+			Title: "Update User",
+			User: user,
+		}
+		err = tmp.ExecuteTemplate(w, "base.html", data)
+		if err!= nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	}
+
+	}
 
 // TODO: Clean  up this function
 func GetUserHandler(db *sql.DB) http.HandlerFunc {
@@ -55,15 +100,6 @@ func GetUserHandler(db *sql.DB) http.HandlerFunc {
 	}
 }
 
-// func GetAllUsersHandler(db *sql.DB) http.HandlerFunc {
-// 	return func(w http.ResponseWriter, r *http.Request) {
-// 		users, err := models.GetAllUsers(db)
-//         if err != nil {
-//             http.Error(w, err.Error(), http.StatusInternalServerError)
-//         }
-//         return users
-//     }
-// }
 
 
 func UpdateUser(db *sql.DB) http.HandlerFunc {
@@ -90,7 +126,7 @@ func UpdateUser(db *sql.DB) http.HandlerFunc {
     }
 }
 
-func LoginVerificator(db *sql.DB) http.HandlerFunc {
+func LoginVerificatorHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// First thing first we need to get the input from the form
 		// TODO: clean up those inputs
@@ -130,14 +166,15 @@ func LoginVerificator(db *sql.DB) http.HandlerFunc {
 		}
 
 		// Setting the token in a cookie
-		//TODO: make sure it is as secure as possible
 		http.SetCookie(w, &http.Cookie{
 			Name: "jwt",
 			Value: token, 
-			MaxAge: 86400,
+			MaxAge: 23200,
 			HttpOnly: true,
 			Secure: true,
 			Path: "/",
+			SameSite: http.SameSiteDefaultMode,
+			// Domain: "goserver.com",
 		})
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("Logged in"))

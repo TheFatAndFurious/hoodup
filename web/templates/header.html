@@ -1,18 +1,25 @@
 {{define "header"}}
 
-<header>
+<header class="fixed w-full z-50">
   <nav>
-    <ul class="flex gap-x-2">
-      <a href="/home">
-        <li>Home</li>
-      </a>
-      <a href="/articles">
-        <li>Articles</li>
-      </a>
-      <a href="/contact">
-        <li>Contact</li>
-      </a>
-    </ul>
+    <div class="navbar bg-base-100">
+      <div class="flex-1">
+        <a class="btn btn-ghost text-xl">Overkill</a>
+      </div>
+      <div class="flex-none">
+        <ul class="menu menu-horizontal px-1">
+          <li>
+            <a href="/"> Home </a>
+          </li>
+          <li>
+            <a href="/articles"> Articles </a>
+          </li>
+          <li>
+            <a href="/contact"> Contact </a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </nav>
 </header>
 {{end}}

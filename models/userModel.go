@@ -5,20 +5,22 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
+
+	"goserver.com/events"
+	"goserver.com/utils"
 )
 
 type User struct {
-	 Id       int    `json:"id"`
-    Username string `json:"username"`
-    Email    string `json:"email"`
-    Password string `json:"password"`
+	Id       int    `json:"id"`
+    Username string `json:"username" validate:"required,alphanum"`
+    Email    string `json:"email" validate:"required,email"`
+    Password string `json:"password" validate:"required,alphanum"`
     Role     string `json:"role"`
 }
 
 type DB struct {
 	DB *sql.DB
 }
-
 
 
 // CONVERT FORM DATA TO USER MODEL
@@ -33,6 +35,11 @@ func FormToUser(form url.Values) (*User, error) {
 
 // PERSIST USER TO DATABASE
 func PersistUser(db *sql.DB, user *User) error{
+	err := utils.ValidateStruct(user)
+	if err != nil {
+		return err
+	}
+	utils.SanitizeStructs(user)
 	statement, err := db.Prepare("INSERT INTO users (username, email, password, role) VALUES (?,?,?,?)")
 	if err != nil {
 		return fmt.Errorf("error preparing staement: %w", err)
@@ -43,6 +50,7 @@ func PersistUser(db *sql.DB, user *User) error{
 	if err!= nil {
 		return fmt.Errorf("error executing the statement: %w", err)
 	}
+	events.EventBroker.Publish("we good")
 	return nil
 }
 

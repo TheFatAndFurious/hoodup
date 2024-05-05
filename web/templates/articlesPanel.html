@@ -1,0 +1,30 @@
+{{define "content"}}
+<div class="overflow-x-auto">
+  <table class="table table-xs">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Published</th>
+        <th>Has_been_published</th>
+        <th>Date_published</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Articles}}
+      <tr>
+        <td>{{.Id}}</td>
+        <td>
+          <a href="/commander/editor/{{.Id}}"> {{.Title}} </a>
+        </td>
+        <td>{{.Author}}</td>
+        <td>{{.Published}}</td>
+        <td>{{.HasBeenPublished}}</td>
+        <td>{{.PublishedAt}}</td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+</div>
+{{end}}

@@ -1,13 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="min-h-full flex">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/static/css/tailwind.css" />
+    <script src="/static/css/script.js"></script>
     <title>{{.Title}}</title>
   </head>
-  <body>
+  <body class="bg-gray-400 min-h-full grow">
+    <div id="sse-data" class="hidden">
+      <div class="toast">
+        <div class="alert alert-info">
+          <span>New message arrived.</span>
+        </div>
+      </div>
+    </div>
     {{template "header" .}}
-    <main>{{template "content" .}}</main>
+    <main
+      class="lg:max-w-screen-lg mx-auto bg-slate-300 px-10 py-40 min-h-full flex items-center"
+    >
+      {{template "content" .}}
+    </main>
   </body>
 </html>

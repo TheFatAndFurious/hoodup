@@ -1,12 +1,17 @@
 {{define "content"}}
 
 <h1>PANEL ADMIN MON GROS</h1>
-<ul>
-  {{range .Users}}
-  <a href="/users/{{ .Id}}">
-    <li>{{.Username}}</li>
-  </a>
-  {{end}}
-</ul>
+<form id="createUser">
+  <div class="flex flex-col">
+    <label for="username">username</label>
+    <input type="text" name="username" />
+    <label for="password">password</label>
+    <input type="text" name="password" />
+    <label for="email">email</label>
+    <input type="email" name="email" />
+    <button type="submit">Envoyer</button>
+  </div>
+</form>
+<div id="responseMessage"></div>
 
 {{end}}

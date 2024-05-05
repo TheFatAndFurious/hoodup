@@ -16,6 +16,7 @@ import (
 	}
 	fmt.Printf("Database up and running")
 
+
 	return db, nil
 
 }
