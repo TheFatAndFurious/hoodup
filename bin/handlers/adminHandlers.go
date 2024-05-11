@@ -14,7 +14,7 @@ import (
 
 func AdminHandler( db *sql.DB) http.HandlerFunc{
 	return func(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles(filepath.Join(basePath, "base.html"), filepath.Join(basePath, "header.html"), filepath.Join(basePath, "adminContent.html")))
+	tmpl := template.Must(template.ParseFiles(filepath.Join(projectRootPath, "base.html"), filepath.Join(projectRootPath, "header.html"), filepath.Join(projectRootPath, "adminContent.html")))
 users, err := models.GetAllUsers(db)
 if err!= nil {
 	http.Error(w, err.Error(), http.StatusInternalServerError)

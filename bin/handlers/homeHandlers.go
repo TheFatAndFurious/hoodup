@@ -5,9 +5,11 @@ import (
 	"html/template"
 	"net/http"
 	"path/filepath"
+
+	"goserver.com/utils"
 )
-var projectRootPath = "."
-var basePath = filepath.Join(projectRootPath, "web", "templates")
+var projectRootPath = "/var/www/"
+var basePath = utils.GetEnv("TEMPLATES_PATH", "../../web/templates")
 
 
 	func HomepageHandler(db *sql.DB) http.HandlerFunc {

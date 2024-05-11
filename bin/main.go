@@ -5,17 +5,17 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
 	_ "github.com/mattn/go-sqlite3"
 	"goserver.com/data"
 	"goserver.com/routes"
 )
-func initEnv(){
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading.env file")
-	}
-}
+
+// func initEnv(){
+// 	err := godotenv.Load()
+// 	if err != nil {
+// 		log.Fatal("Error loading.env file")
+// 	}
+// }
 
 func NewRouter() *mux.Router {
 	r := mux.NewRouter() 
@@ -26,7 +26,8 @@ func NewRouter() *mux.Router {
 
 func main() {
 
-	initEnv()
+
+	// initEnv()
 
 	db, err := data.DbInitialize()
 	if err != nil {
@@ -46,8 +47,8 @@ func main() {
 	
 	myApp.InitializeRoutes()
 
-	fs := http.FileServer(http.Dir("./static/"))
-	pub := http.FileServer(http.Dir("./public/"))
+	fs := http.FileServer(http.Dir("/var/www/static/"))
+	pub := http.FileServer(http.Dir("../public/"))
 	
 	myApp.Router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
 	myApp.Router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", pub))
