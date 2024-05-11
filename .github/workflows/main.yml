@@ -1,0 +1,50 @@
+name: Build and Deploy to IONOS VPS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          tags: ${{ secrets.DOCKER_USERNAME }}/myapp:latest
+          push: true
+
+      - name: Copy files to VPS
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          source: "/web/templates/*, /db/*"
+          target: "/var/www/web/templates, /var/www/db "
+
+      - name: Update container on VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/myapp:latest
+            docker stop my-container || true
+            docker rm my-container || true
+            docker run -d \ -v /var/www/web/templates:/var/www/web/templates -v /var/www/static:/var/www/static -v /var/www/db:/var/www/db \ --name my-container -p 80:8080 ${{ secrets.DOCKER_USERNAME }}/myapp:latest
