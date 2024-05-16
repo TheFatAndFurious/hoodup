@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   app:
-    image: myapp:v8
+    image: thefatandfurious/goserver
     build:
       context: .
       dockerfile: Dockerfile

@@ -31,3 +31,4 @@ CMD ["./goserver"]
 
 # Define volumes for persistence
 VOLUME ["/app/static", "/app/db", "/app/public", "/app/web/templates"]
+

@@ -13,7 +13,6 @@ import (
 		
 	relativePath := utils.GetEnv("DB_PATH", "../sqlite3.sqlite")
 	databasePath := utils.GetAbsolutePath(relativePath)
-	fmt.Println(databasePath)
 	
 	db, err := sql.Open("sqlite3", databasePath)
 
@@ -22,7 +21,6 @@ import (
 	}
 	fmt.Printf("Database up and running")
 
-
 	return db, nil
 
-}
+	}
