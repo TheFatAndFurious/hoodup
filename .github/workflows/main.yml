@@ -52,5 +52,6 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
+            cd /path/to/your/app  # Ensure this path is correct
             docker-compose down
             docker-compose up -d
