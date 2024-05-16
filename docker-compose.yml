@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  app:
+    image: myapp:v8
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./static:/app/static
+      - ./db:/app/db
+      - ./public:/app/public
+      - ./web/templates:/app/web/templates
+      - ./.env:/app/.env
+    env_file:
+      - ./.env
+
+volumes:
+  dbdata:
