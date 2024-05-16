@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // const test = setTimeout(() => {
     //   toast.classList.remove("hidden");
     // }, 3000);
-    // test();
     console.log(e);
   };
 
