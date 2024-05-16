@@ -43,7 +43,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASSWORD }}
           source: "./web/templates/"
-          target: "/path/to/your/app/web/templates/"
+          target: "/var/www/web/templates/"
 
       - name: Restart Docker container
         uses: appleboy/ssh-action@v0.1.3
@@ -52,6 +52,6 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            cd /path/to/your/app  # Ensure this path is correct
+            cd /var/www  # Ensure this path is correct
             docker-compose down
             docker-compose up -d
