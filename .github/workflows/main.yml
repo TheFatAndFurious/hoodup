@@ -42,7 +42,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-avz --delete"
           SOURCE: "./web/templates/"
-          TARGET: "user@your-vps:/path/to/your/app/web/templates/"
+          TARGET: "root@87.106.165.139:/var/www/web/templates/"
 
       - name: Restart Docker container
         uses: appleboy/ssh-action@v0.1.3
