@@ -40,9 +40,11 @@ jobs:
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.VPS_HOST }}
+          REMOTE_USER: ${{ secrets.VPS_USER }}
           ARGS: "-avz --delete"
           SOURCE: "./web/templates/"
-          TARGET: "root@87.106.165.139:/var/www/web/templates/"
+          TARGET: "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/path/to/your/app/web/templates/"
 
       - name: Restart Docker container
         uses: appleboy/ssh-action@v0.1.3
