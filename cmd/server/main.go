@@ -46,8 +46,8 @@ func main() {
 	
 	myApp.InitializeRoutes()
 
-	fs := http.FileServer(http.Dir("../static/"))
-	pub := http.FileServer(http.Dir("../public/"))
+	fs := http.FileServer(http.Dir("/app/static/"))
+	pub := http.FileServer(http.Dir("app/public/"))
 	
 	myApp.Router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
 	myApp.Router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", pub))
