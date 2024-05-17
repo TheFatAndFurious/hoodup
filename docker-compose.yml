@@ -9,11 +9,11 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./static:/app/static
-      - ./db:/app/db
-      - ./public:/app/public
-      - ./web/templates:/app/web/templates
-      - ./.env:/app/.env
+      - ./static:/static
+      - ./db:/db
+      - ./public:/public
+      - ./web/templates:/web/templates
+      - ./.env:/.env
     env_file:
       - ./.env
 
