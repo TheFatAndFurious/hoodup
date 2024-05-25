@@ -1,4 +1,4 @@
-name: CI for Feature Branches
+name: CI for Feature Branches Test
 
 on:
   pull_request:
@@ -27,25 +27,30 @@ jobs:
   auto-merge:
     needs: build-and-test
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == false && success()
+    if: success()
 
     steps:
-      - name: Checkout code
+      - name: Checkout dev branch
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          persist-credentials: false
+          ref: dev
+
+      - name: Fetch all branches
+        run: git fetch --all
+
+      - name: List all branches for debugging
+        run: git branch -a
 
       - name: Configure Git
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-      - name: Merge to dev
+      - name: Merge PR branch into dev
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git checkout dev
           git merge --no-ff ${{ github.event.pull_request.head.sha }}
           git push origin dev

@@ -101,7 +101,6 @@ func GetUserHandler(db *sql.DB) http.HandlerFunc {
 }
 
 
-
 func UpdateUser(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
@@ -130,7 +129,6 @@ func LoginVerificatorHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// First thing first we need to get the input from the form
 		// TODO: clean up those inputs
-		fmt.Print("we hit it")
 		if err := r.ParseForm(); err != nil {
             http.Error(w, "Invalid form data", http.StatusBadRequest)
 			return
@@ -178,7 +176,6 @@ func LoginVerificatorHandler(db *sql.DB) http.HandlerFunc {
 			SameSite: http.SameSiteDefaultMode,
 			// Domain: "goserver.com",
 		})
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("Logged in"))
+		http.Redirect(w, r, "http://localhost:8080/commander", http.StatusFound)
 	}
     }
