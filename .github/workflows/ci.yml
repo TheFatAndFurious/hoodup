@@ -1,4 +1,4 @@
-name: CI for Feature Branches
+name: CI for Feature Branches Test
 
 on:
   pull_request:
