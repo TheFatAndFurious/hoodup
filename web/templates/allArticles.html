@@ -5,7 +5,11 @@
   {{range .Articles}}
   <div class="card lg:card-side bg-base-100 shadow-xl mb-4">
     <figure>
-      <img src="{{.Illustration}}" alt="Album" />
+      <img
+        src="{{.Illustration}}"
+        alt="Album"
+        class="max-w-40 h-full object-cover"
+      />
     </figure>
     <div class="card-body">
       <h2 class="card-title font-typewriter">{{.Title}}</h2>
